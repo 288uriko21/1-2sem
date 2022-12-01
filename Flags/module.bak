@@ -1,0 +1,159 @@
+Unit module;
+
+
+interface
+
+
+ uses crt;
+ Procedure ADDbz(max: longint;bit: integer; op1, op2: longint; var F: text);
+ Procedure SUBbz(max: longint;bit: integer; op1, op2: longint; var F: text);
+ Procedure ConvertToBinary(max: longint; op: longint; var F:text );
+
+implementation
+
+ Procedure ConvertToBinary(max: longint; op: longint; var F:text );
+ var  dva, pos: longint;
+      i: integer;
+ begin
+   dva:=max div 2;
+   if op<0 then
+       op:=max + op;
+   while dva <>  0 do begin
+     if op>=dva then begin
+        op:=op-dva;
+        write(F, '1');
+     end
+     else
+        write(F, '0');
+     dva:=dva div 2
+   end
+ end;
+
+
+ Procedure skobki(op1, op2, res: longint; znak: char);
+ begin
+     if op2<0 then
+        write(op1, znak, '(', op2,')', '=', res, '    ')
+     else
+        write(op1, znak,  op2, '=', res, '    ')
+ end;
+
+
+ Procedure ADDbz(max: longint; bit: integer; op1, op2: longint; var F: text);
+  var res: longint;
+      ZF, SF, CF, oOf: integer;
+ begin
+    ZF:=0;
+    SF:=0;
+    CF:=0;
+    oOF:=0;
+    if op1<0 then
+       op1:=max+op1;
+    if op2<0 then
+       op2:=max+op2;
+    res:=op1+op2;
+    if res>=max then begin
+       CF:=1;
+       res:=res-max;
+       TextColor(4);
+       write(op1, '+', op2, '=', res, '      ');
+    end
+    else begin
+        TextColor(2);
+        write(op1, '+', op2, '=', res, '     ');
+    end;
+    ConvertToBinary(max,res, F);
+    write(F, res: bit);
+    if res=0 then
+       ZF:=1;
+    if res-(max div 2)>=0 then
+       SF:=1;
+    if res >= max div 2 then
+       write(F, -(max-res): bit)
+    else
+       write(F, res: bit);
+    if op1>(max div 2 - 1) then
+       op1:= -(max - op1);
+    if op2>(max div 2 - 1) then
+       op2:= -(max - op2);
+    res := op1+op2;
+    if (res<(-max div 2)) or (res>((max div 2) -1)) then begin
+      oOF:=1;
+      res:=max+res;
+      TextColor(4);
+      skobki(op1, op2, res, '+')
+    end
+    else begin
+      TextColor(2);
+      skobki(op1, op2,res, '+');
+    end;
+    write(F,'  ', ZF, SF, CF, oOF)
+ end;
+
+  Procedure SUBbz(max: longint;bit: integer; op1, op2: longint; var F: text);
+  var res: longint;
+      ZF, SF, CF, oOf: integer;
+  begin
+    ZF:=0;
+    SF:=0;
+    CF:=0;
+    oOF:=0;
+    if op1<0 then
+       op1:=max+op1;
+    if op2<0 then
+       op2:=max+op2;
+    res:=op1-op2;
+    if res < 0 then begin
+       CF:=1;
+       res:=max+res;
+       TextColor(4);
+       write(op1, '-', op2, '=', res, '      ')
+    end
+    else begin
+       TextColor(2);
+       write(op1, '-', op2, '=', res, '     ');
+    end;
+    ConvertToBinary(max,res, F);
+    write(F, res: bit);
+    if res=0 then
+       ZF:=1;
+    if res-(max div 2)>=0 then
+       SF:=1;
+
+    if res >= max div 2 then
+       write(F, -(max-res): bit)
+    else
+       write(F, res: bit);
+
+    if op1>(max div 2 - 1) then
+       op1:= -(max - op1);
+    if op2>(max div 2 - 1) then
+       op2:= -(max - op2);
+    res := op1-op2;
+    if (res<(-max div 2)) or (res>((max div 2) -1)) then begin
+      oOF:=1;
+      res:=max+res;
+      TextColor(4);
+      skobki(op1, op2,res, '-')
+    end
+    else   begin
+      TextColor(2);
+      skobki(op1, op2,res, '-')
+    end;
+    write(F,'  ', ZF, SF, CF, oOF);
+    writeln;
+  end;
+
+End.
+
+
+
+
+
+
+
+
+
+
+
+

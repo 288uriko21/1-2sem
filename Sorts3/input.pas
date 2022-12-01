@@ -1,0 +1,39 @@
+Program vvod(outp); {Программа записи вводимых слов во входной файл для сортировки}
+
+uses module;
+
+var f: file of stroka;
+
+procedure input(var f: ff);
+
+var   i, j, dlin: integer; zap: stroka; c: char;
+
+begin
+  rewrite(f);
+  writeln('Введите кол-во данных, которые собираетесь ввести');
+  readln(dlin);
+  write('Введите слова длиной до 10 включительно, через пробел(пробел после последнего слова тоже введите, пожалуйста): ');
+  for i:=1 to dlin do begin
+    read(c);
+    zap.dlin:=1;
+    while c <> ' ' do begin
+      zap.slovo[zap.dlin]:=c;
+      zap.dlin:=zap.dlin+1;
+      read(c)
+    end;
+    zap.dlin:=zap.dlin-1;
+    write(f, zap);
+    zapSpace(zap, ' ');
+  end;
+  close(f);
+end;
+
+begin
+   assign(f, inp);
+   input(f)
+end.
+
+
+
+
+

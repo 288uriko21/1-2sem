@@ -1,0 +1,17 @@
+@echo off
+
+  set Name=Angelina
+  set path=..\bin;..\..\bin;c:\masm 6.14\bin
+  set include=..\include;..\..\include;c:\masm 6.14\include
+  set lib=..\lib;..\..\lib;c:\masm 6.14\lib
+
+  ml /c /coff /Fl %Name%.asm
+  
+ if errorlevel 1 goto errasm
+ echo ___________ Now you have a object file  _____
+  goto TheEnd
+:errasm
+  echo Assembler Error !!!!!!!!!!!!
+  goto TheEnd
+:TheEnd
+ pause

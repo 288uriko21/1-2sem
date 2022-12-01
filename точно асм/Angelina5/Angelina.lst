@@ -1,0 +1,97 @@
+Microsoft (R) Macro Assembler Version 6.14.8444		    05/30/22 01:29:01
+Angelina.asm						     Page 1 - 1
+
+
+				.686
+				.model flat, stdcall
+				option casemap:none
+
+
+				COMMENT * *
+
+ 00000000			.data
+
+ 00000000			.code
+
+ 00000000			 SUM proc public
+ 00000000  55			   push ebp
+ 00000001  8B EC		   mov ebp, esp
+				   
+ 00000003  50			   push eax
+ 00000004  53			   push ebx
+ 00000005  56			   push esi
+ 00000006  57			   push edi
+ 00000007  51			   push ecx
+				   
+ 00000008  66| 8B 45 08		   mov ax, word ptr [ebp+8]
+ 0000000C  66| 8B 5D 0C		   mov bx, word ptr [ebp+12]
+				   
+ 00000010  8B 75 18		   mov esi, [ebp+24]
+ 00000013  8B 7D 1C		   mov edi, [ebp+28]
+ 00000016  8B 4D 10		   mov ecx, [ebp+16]
+				   
+ 00000019  66| 03 C3		   add ax, bx
+ 0000001C  73 03		   JNC L1
+ 0000001E  C6 06 FF		      mov byte ptr[esi], 0FFh         
+ 00000021			   L1: 
+ 00000021  71 03		   JNO L2
+ 00000023  C6 07 FF		      mov byte ptr[edi], 0FFh   
+ 00000026			   L2:
+				   
+ 00000026  66| 89 01		   mov word ptr [ecx], ax
+ 00000029  8B 4D 14		   mov ecx, [ebp+20]
+ 0000002C  66| 89 01		   mov word ptr [ecx], ax
+				   
+ 0000002F  59			   pop ecx
+ 00000030  5F			   pop edi
+ 00000031  5E			   pop esi
+ 00000032  5B			   pop ebx
+ 00000033  58			   pop eax
+				   
+ 00000034  8B E5		   mov esp, ebp
+ 00000036  5D			   pop ebp
+ 00000037  C2 0018		   ret 24
+ 0000003A			 SUM endp
+				 
+
+				 end 
+Microsoft (R) Macro Assembler Version 6.14.8444		    05/30/22 01:29:01
+Angelina.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000000 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000003A Para	  Public  'CODE'	
+
+
+Procedures,  parameters and locals:
+
+                N a m e                 Type     Value    Attr
+
+SUM  . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000003A Public STDCALL
+  L1 . . . . . . . . . . . . . .	L Near	 00000021 _TEXT	
+  L2 . . . . . . . . . . . . . .	L Near	 00000026 _TEXT	
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000003h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+
+	   0 Warnings
+	   0 Errors

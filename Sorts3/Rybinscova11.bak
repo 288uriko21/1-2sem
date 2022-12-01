@@ -1,0 +1,266 @@
+{Рыбинскова Ю.О.
+109 группа
+2 этап практикума #3
+Сортировка по возрастанию
+Челночная сортировка и сортировка методом естественного слияния
+Вход - типизированный файл, выход - текстовый файл}
+
+Program chisla(inp, outp);
+
+uses module;
+
+const elemCount = 30;
+      outp = 'outp.txt';
+
+type massiv = array [1..elemCount] of stroka;
+
+var perest, dlin, sravn, i: integer;
+    a, a1, y: massiv;
+    f:  ff;
+    fo: text;
+
+{////Вывод//массива//слов////////////////////////////////////////}
+procedure vivod(var m: massiv);
+
+procedure outps(zap: stroka);
+  var i: integer;
+  begin
+    for i:=1 to zap.dlin do
+      write(fo,zap.slovo[i]);
+    write(fo,' ')
+  end;
+
+begin
+   for i:=1 to dlin do begin
+       outps(m[i]);
+   end;
+   writeln(fo);
+end;
+{///////////////////////////////////////////////////}
+
+
+{//////////////////////////////////////////////////////////////////////////////////}
+{***********Естественное*слияние******************************************}
+procedure SORTH(var m, y: massiv; var p, s: integer);
+
+{**********Функция,**проверяющая**отсортированность**массива********************}
+function issorted (m: massiv; var s: integer):boolean;
+var i: integer; flag: boolean;
+begin
+  flag:=false;
+  issorted:=true;
+  i:=1;
+  while (i<=dlin-1) and (not(flag)) do  begin
+      if srav(m[i],m[i+1],false) then begin
+        issorted:=false;
+        s:=s+1;
+        flag:=true
+      end;
+      i:=i+1;
+  end
+end;
+
+procedure estslian(var m, y: massiv; var p, s: integer);
+var n, k, i, z, z1, nachy1, nachy2, beg, en: integer; flag, f: boolean; zap: stroka;
+
+{*****************поиск**правого**конца**отрезка**с**начала**массива**подлежащего**слиянию*******}
+function poiskk(var m: massiv; nach: integer): integer;
+var i: integer;
+begin
+  i:=nach;
+  while  srav(m[i+1],m[i], true)  do  begin
+    i:=i+1;
+    s:=s+1;
+    if i>=dlin then
+       break
+  end;
+  poiskk:=i
+end;
+{***************************************************************************************}
+
+{**********поиск**левого**конца**отрезка**с**конца**массива**подлежащего**слиянию*******}
+function poiskn(var m: massiv; nach: integer): integer;
+var i: integer;
+begin
+  i:=nach;
+  while srav(m[i],m[i-1], true)  do begin
+    i:=i-1;
+    s:=s+1;
+    if i<=1 then
+       break
+  end;
+  poiskn:=i
+end;
+{************************************************}
+
+ begin
+  flag:=true;
+  f:=true;
+  nachy1:=1;
+  nachy2:=dlin;
+  beg:=1;
+  en:=dlin;
+  zapSpace(zap, '-');
+  k:=poiskk(m,beg);
+  n:=poiskn(m, en);
+  {write(fo,'kn', k, ' ', n, 'beg en', beg,' ', en);}
+  if k<>en then begin
+   for i:=1 to dlin do
+      y[i]:=zap;
+   while en>=beg do begin {условие "пока не завершено перенесение в Y"}
+     k:=poiskk(m,beg);
+     n:=poiskn(m, en);
+     z:=n;
+     z1:=k;
+     if n=beg then
+       n:=en+1;
+     if f then begin {если записываем в начало Y}
+      while (n<>en+1) or (k<>beg-1) do begin {Условие окончания слияния отрезков с конца и начала}
+        if (((n<>en+1) and (beg-1<>k)) and srav(m[beg],m[n],false)) or
+        ((n<>en+1) and (beg-1=k)) then begin {условие, при котором в Y записывается элемент из отрезка с конца X}
+            write(fo,'Y:  ');
+            vivod(y);
+            y[nachy1]:=m[n];
+            n:=n+1;
+            if beg-1<>k then
+               s:=s+1;
+            p:=p+1;
+            nachy1:=nachy1+1
+        end
+        else begin
+            if beg-1<>k then
+               s:=s+1;
+            p:=p+1;
+            write(fo,'Y:  ');
+            vivod(y);
+            y[nachy1]:=m[beg];
+            beg:=beg+1;
+            nachy1:=nachy1+1
+        end;
+      end
+     end
+     else begin
+      while (n<>en+1) or (k<>beg-1) do begin
+        if (((n<>en+1) and (beg-1<>k)) and srav(m[k],m[en], false)) or
+        ((z1<>beg-1) and (en+1=n)) then begin
+            write(fo,'Y:  ');
+            vivod(y);
+            y[nachy2]:=m[k];
+            k:=k-1;
+            p:=p+1;
+            if beg-1<>k then
+               s:=s+1;
+            nachy2:=nachy2-1
+        end
+        else begin
+            write(fo,'Y:  ');
+            vivod(y);
+            y[nachy2]:=m[en];
+            en:=en-1;
+            p:=p+1;
+            if beg-1<>k then
+               s:=s+1;
+            nachy2:=nachy2-1
+        end
+      end;
+     end;
+     if f then
+        en:=z-1
+     else
+        beg:=z1+1;
+     f:=not(f);
+   end;
+   write(fo,'Массив Х ');
+   vivod(m);
+   write(fo,'Массив Y ');
+   vivod(y);
+   writeln(fo,'/////////////////////////////////////////////////////////');
+   estslian(y, m, p, s)
+  end
+ end;
+begin
+ if not(issorted(m,s)) then begin
+    estslian(m,y,perest,sravn);
+    if issorted(y,s) then
+       m:=y
+ end
+end;
+{////конец//естесвенного//слияния///////////////////////////////////////////////////////}
+
+{////////////////Челночная//сортировка/////////////////////////////////////////}
+procedure chelnoch(var m: massiv; var p, s: integer; dlin: integer);
+ procedure swap(var a, b: stroka);
+ var c: stroka;
+ begin
+   c:=a;
+   a:=b;
+   b:=c
+ end;
+var i, j, n: integer;
+    flag: boolean;
+begin
+  for i:=2 to dlin do begin
+      s:=s+1;
+      if srav(m[i-1],m[i],false) then begin
+         swap(m[i],m[i-1]);
+         p:=p+1;
+         vivod(m);
+         flag:=true;
+         n:=i-2;
+         j:=i-1;
+         while (n>0) and flag do begin
+             n:=n-1;
+             s:=s+1;
+             if (srav(m[j-1],m[j],false)) then begin
+                swap(m[j],m[j-1]);
+                vivod(m);
+                p:=p+1
+             end
+             else
+                flag:=false;
+             j:=j-1
+         end
+      end
+  end
+end;
+{///////////////////Конец//челночной//сортировки////////////////////////////////////////}
+
+begin
+   assign(f, inp);
+   reset(f);
+   assign(fo, outp);
+   rewrite(fo);
+   dlin:=0;
+   while not(eof(f)) do begin
+      dlin:=dlin+1;
+      read(f,a[dlin])
+   end;
+   a1:=a;
+   writeln(fo,'Челночная сортировка');
+   write(fo,'Начальный массив: ');
+   vivod(a);
+   for i:=1 to dlin do begin
+      zapSpace(y[i],'-');
+      y[i].dlin:=1;
+   end;
+   writeln(fo);
+
+   chelnoch(a, perest, sravn, dlin);
+   writeln(fo);
+   write (fo,'Итоговый массив: ');
+   vivod(a);
+   writeln(fo);
+   writeln(fo,'Перестановок - ',perest,' Сравнений - ', sravn);
+
+   writeln(fo);
+   writeln(fo);
+   writeln(fo,'Сортировка естественным слиянием');
+   perest:=0;
+   sravn:=0;
+   SORTH(a1, y, perest, sravn);
+   write(fo,'Итоговый массив: ');
+   vivod(a1);
+   writeln(fo);
+   writeln(fo,'Перестановок - ',perest,' Сравнений - ', sravn);
+   close(fo)
+end.

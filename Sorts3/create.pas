@@ -1,0 +1,84 @@
+Program vvod;
+
+uses module;
+
+var f: file of stroka;
+    zap: stroka;
+
+begin
+  assign(f, 'T3.slov');
+  rewrite(f);
+  zap.dlin:=10;
+  zap.slovo:='голосовать';
+  write(f, zap);
+  zap.slovo:='абитуриент';
+  write(f, zap);
+  zap.slovo:='ежедневный';
+  write(f, zap);
+  zap.slovo:='диэлектрик';
+  write(f, zap);
+  zap.slovo:='жительство';
+  write(f, zap);
+  zap.slovo:='иделграмма';
+  write(f, zap);
+  zap.slovo:='явственный';
+  write(f, zap);
+  zap.slovo:='экспортный';
+  write(f, zap);
+  zap.slovo:='черноморец';
+  write(f, zap);
+  zap.slovo:='штурмовать';
+  write(f, zap);
+  zap.slovo:='химический';
+  write(f, zap);
+  zap.slovo:='шепелявить';
+  write(f, zap);
+  zap.slovo:='челюскинцы';
+  write(f, zap);
+  zap.slovo:='осмелиться';
+  write(f, zap);
+  zap.slovo:='траектория';
+  write(f, zap);
+  zap.slovo:='ухватиться';
+  write(f, zap);
+  zap.slovo:='шестилетний';
+  write(f, zap);
+  zap.slovo:='аахенозавр';
+  write(f, zap);
+  zap.slovo:='радиоканал';
+  write(f, zap);
+  zap.slovo:='тайноведец';
+  write(f, zap);
+  zap.slovo:='саванновый';
+  write(f, zap);
+  zap.slovo:='Эдельштадт';
+  write(f, zap);
+  zap.slovo:='саблезубый';
+  write(f, zap);
+  zap.slovo:='умножиться';
+  write(f, zap);
+  zap.slovo:='осмелиться';
+  write(f, zap);
+  zap.slovo:='фантастика';
+  write(f, zap);
+  zap.slovo:='увольнение';
+  write(f, zap);
+  zap.slovo:='титуловать';
+  write(f, zap);
+  zap.slovo:='сдружиться';
+  write(f, zap);
+  zap.slovo:='свистулька';
+  write(f, zap);
+  close(f);
+end.
+
+
+
+
+
+
+
+
+
+
+
